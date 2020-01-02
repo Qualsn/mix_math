@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\CreateTab;
-use app\models\searchs\CreateTab as CreateTabSearch;
+use app\models\Users;
+use app\models\searchs\Users as UsersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CreateTabController implements the CRUD actions for CreateTab model.
+ * UsersController implements the CRUD actions for Users model.
  */
-class CreateTabController extends Controller
+class UsersController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class CreateTabController extends Controller
     }
 
     /**
-     * Lists all CreateTab models.
+     * Lists all Users models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CreateTabSearch();
+        $searchModel = new UsersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class CreateTabController extends Controller
     }
 
     /**
-     * Displays a single CreateTab model.
+     * Displays a single Users model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -57,15 +57,14 @@ class CreateTabController extends Controller
         ]);
     }
 
-
     /**
-     * Creates a new CreateTab model.
+     * Creates a new Users model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CreateTab();
+        $model = new Users();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -77,7 +76,7 @@ class CreateTabController extends Controller
     }
 
     /**
-     * Updates an existing CreateTab model.
+     * Updates an existing Users model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -97,7 +96,7 @@ class CreateTabController extends Controller
     }
 
     /**
-     * Deletes an existing CreateTab model.
+     * Deletes an existing Users model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -111,15 +110,15 @@ class CreateTabController extends Controller
     }
 
     /**
-     * Finds the CreateTab model based on its primary key value.
+     * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CreateTab the loaded model
+     * @return Users the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CreateTab::findOne($id)) !== null) {
+        if (($model = Users::findOne($id)) !== null) {
             return $model;
         }
 
