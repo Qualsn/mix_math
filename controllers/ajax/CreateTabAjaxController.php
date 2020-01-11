@@ -25,7 +25,7 @@ class CreateTabAjaxController extends BaseController
           'title' =>  $post['title'],
             'host' => $post['host'],
             'address' => $post['address'],
-            'tab_num' => $post['num_tab'],
+            'tab_num' => $post['tab_num'],
             'create_time' => time(),
             'user_id' => $post['open_id'],
         ];
@@ -52,15 +52,7 @@ class CreateTabAjaxController extends BaseController
         }
     }
 
-    /**
-     * 主页显示表
-     * @return false|string、
-     */
-    public function actionMainIndex()
-    {
-        $list = CreateTab::find()->select(['id','title','host'])->orderBy('id desc')->asArray()->all();
-        return $this->outputList($list);
-    }
+
 
 
     public function actionCreateMain()

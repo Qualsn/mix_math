@@ -8,12 +8,12 @@ use Yii;
  * This is the model class for table "create_tab".
  *
  * @property int $id
- * @property int $user_id 用户id
- * @property string $host 主办方
- * @property int $tab_id 表唯一编号
  * @property string $title 比赛名称
+ * @property string $user_id 用户id
+ * @property string $host 主办方
+ * @property string $tab_num 表唯一编号
  * @property string $address 举办地点
- * @property int $member_num 队伍编号
+ * @property int $status 队伍编号
  * @property string $content_per1 评分项 %
  * @property string $content_per2 评分项目id
  * @property string $content_per3 百分比id
@@ -46,9 +46,10 @@ class CreateTab extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'tab_id', 'member_num', 'sum', 'create_time', 'update_time', 'is_del'], 'integer'],
-            [['host', 'address', 'content_per1', 'content_per2', 'content_per3', 'content_per4', 'content_per5', 'content_per6', 'content_per7', 'content_per8', 'content_per9', 'content_per10'], 'string', 'max' => 100],
-            [['title'], 'string', 'max' => 50],
+            [['user_id'], 'required'],
+            [['status', 'sum', 'create_time', 'update_time', 'is_del'], 'integer'],
+            [['title', 'tab_num'], 'string', 'max' => 50],
+            [['user_id', 'host', 'address', 'content_per1', 'content_per2', 'content_per3', 'content_per4', 'content_per5', 'content_per6', 'content_per7', 'content_per8', 'content_per9', 'content_per10'], 'string', 'max' => 100],
             [['comment'], 'string', 'max' => 200],
         ];
     }
@@ -60,12 +61,12 @@ class CreateTab extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'title' => 'Title',
             'user_id' => 'User ID',
             'host' => 'Host',
-            'tab_id' => 'Tab ID',
-            'title' => 'Title',
+            'tab_num' => 'Tab Num',
             'address' => 'Address',
-            'member_num' => 'Member Num',
+            'status' => 'Status',
             'content_per1' => 'Content Per1',
             'content_per2' => 'Content Per2',
             'content_per3' => 'Content Per3',

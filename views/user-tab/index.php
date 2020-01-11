@@ -27,10 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'user_id',
             'create_tab_id',
             'team_id',
             'score1',
-            'score2',
+            //'score2',
             //'score3',
             //'score4',
             //'score5',
@@ -39,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'score8',
             //'score9',
             //'score10',
+            //'evaluate',
             //'create_time:datetime',
             //'update_time:datetime',
 

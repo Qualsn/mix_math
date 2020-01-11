@@ -21,7 +21,7 @@ class BaseController extends Controller
         return json_encode($arr,JSON_UNESCAPED_LINE_TERMINATORS);
     }
 
-    public function outputRows($msg = '',$content)
+    public function outputRows($msg = '',$content = '')
     {
         $arr = [
             'code' => '',

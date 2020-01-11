@@ -17,8 +17,8 @@ class CreateTab extends CreateTabModel
     public function rules()
     {
         return [
-            [['id', 'user_id', 'tab_id', 'member_num', 'sum', 'create_time', 'update_time', 'is_del'], 'integer'],
-            [['host', 'title', 'address', 'content_per1', 'content_per2', 'content_per3', 'content_per4', 'content_per5', 'content_per6', 'content_per7', 'content_per8', 'content_per9', 'content_per10', 'comment'], 'safe'],
+            [['id', 'status', 'sum', 'create_time', 'update_time', 'is_del'], 'integer'],
+            [['title', 'user_id', 'host', 'tab_num', 'address', 'content_per1', 'content_per2', 'content_per3', 'content_per4', 'content_per5', 'content_per6', 'content_per7', 'content_per8', 'content_per9', 'content_per10', 'comment'], 'safe'],
         ];
     }
 
@@ -59,17 +59,17 @@ class CreateTab extends CreateTabModel
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'tab_id' => $this->tab_id,
-            'member_num' => $this->member_num,
+            'status' => $this->status,
             'sum' => $this->sum,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time,
             'is_del' => $this->is_del,
         ]);
 
-        $query->andFilterWhere(['like', 'host', $this->host])
-            ->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'user_id', $this->user_id])
+            ->andFilterWhere(['like', 'host', $this->host])
+            ->andFilterWhere(['like', 'tab_num', $this->tab_num])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'content_per1', $this->content_per1])
             ->andFilterWhere(['like', 'content_per2', $this->content_per2])

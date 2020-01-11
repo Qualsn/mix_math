@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'user_id',
             'create_tab_id',
             'team_id',
             'score1',
@@ -42,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'score8',
             'score9',
             'score10',
+            'evaluate',
             'create_time:datetime',
             'update_time:datetime',
         ],

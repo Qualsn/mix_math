@@ -17,7 +17,8 @@ class UserTabSearch extends UserTab
     public function rules()
     {
         return [
-            [['id', 'create_tab_id', 'team_id', 'score1', 'score2', 'score3', 'score4', 'score5', 'score6', 'score7', 'score8', 'score9', 'score10', 'create_time', 'update_time'], 'integer'],
+            [['id', 'user_id', 'create_tab_id', 'team_id', 'score1', 'score2', 'score3', 'score4', 'score5', 'score6', 'score7', 'score8', 'score9', 'score10', 'create_time', 'update_time'], 'integer'],
+            [['evaluate'], 'safe'],
         ];
     }
 
@@ -58,6 +59,7 @@ class UserTabSearch extends UserTab
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'create_tab_id' => $this->create_tab_id,
             'team_id' => $this->team_id,
             'score1' => $this->score1,
@@ -73,6 +75,8 @@ class UserTabSearch extends UserTab
             'create_time' => $this->create_time,
             'update_time' => $this->update_time,
         ]);
+
+        $query->andFilterWhere(['like', 'evaluate', $this->evaluate]);
 
         return $dataProvider;
     }

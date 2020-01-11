@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id')->textInput() ?>
 
+    <?= $form->field($model, 'user_id')->textInput() ?>
+
     <?= $form->field($model, 'create_tab_id')->textInput() ?>
 
     <?= $form->field($model, 'team_id')->textInput() ?>
@@ -37,6 +39,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'score9')->textInput() ?>
 
     <?= $form->field($model, 'score10')->textInput() ?>
+
+    <?= $form->field($model, 'evaluate')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'create_time')->textInput() ?>
 

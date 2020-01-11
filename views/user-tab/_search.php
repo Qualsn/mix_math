@@ -17,13 +17,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
+    <?= $form->field($model, 'user_id') ?>
+
     <?= $form->field($model, 'create_tab_id') ?>
 
     <?= $form->field($model, 'team_id') ?>
 
     <?= $form->field($model, 'score1') ?>
 
-    <?= $form->field($model, 'score2') ?>
+    <?php // echo $form->field($model, 'score2') ?>
 
     <?php // echo $form->field($model, 'score3') ?>
 
@@ -40,6 +42,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'score9') ?>
 
     <?php // echo $form->field($model, 'score10') ?>
+
+    <?php // echo $form->field($model, 'evaluate') ?>
 
     <?php // echo $form->field($model, 'create_time') ?>
 

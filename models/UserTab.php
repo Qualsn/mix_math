@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "user_tab".
  *
  * @property int $id
+ * @property int $user_id
  * @property int $create_tab_id
  * @property int $team_id
  * @property int $score1
@@ -20,6 +21,7 @@ use Yii;
  * @property int $score8
  * @property int $score9
  * @property int $score10
+ * @property string $evaluate
  * @property int $create_time
  * @property int $update_time
  */
@@ -39,8 +41,9 @@ class UserTab extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'create_tab_id', 'team_id'], 'required'],
-            [['id', 'create_tab_id', 'team_id', 'score1', 'score2', 'score3', 'score4', 'score5', 'score6', 'score7', 'score8', 'score9', 'score10', 'create_time', 'update_time'], 'integer'],
+            [['id', 'user_id', 'create_tab_id', 'team_id'], 'required'],
+            [['id', 'user_id', 'create_tab_id', 'team_id', 'score1', 'score2', 'score3', 'score4', 'score5', 'score6', 'score7', 'score8', 'score9', 'score10', 'create_time', 'update_time'], 'integer'],
+            [['evaluate'], 'string', 'max' => 200],
             [['id'], 'unique'],
         ];
     }
@@ -52,6 +55,7 @@ class UserTab extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'user_id' => 'User ID',
             'create_tab_id' => 'Create Tab ID',
             'team_id' => 'Team ID',
             'score1' => 'Score1',
@@ -64,6 +68,7 @@ class UserTab extends \yii\db\ActiveRecord
             'score8' => 'Score8',
             'score9' => 'Score9',
             'score10' => 'Score10',
+            'evaluate' => 'Evaluate',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
         ];

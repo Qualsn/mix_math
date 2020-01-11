@@ -5,6 +5,7 @@ namespace app\controllers\ajax;
 
 
 use app\controllers\BaseController;
+use app\models\CreateTab;
 use app\models\User;
 use app\models\Users;
 
@@ -46,5 +47,38 @@ class UserAjaxController extends BaseController
             }
         }
         return $this->outputList($arr);
+    }
+
+    public function actionHadCreate()
+    {
+        $post = \Yii::$app->request->post();
+        $query = CreateTab::find()->select(['id','title','host','tab_num','status'])->where($post)->orderBy('id desc')->asArray()->all();
+        return $this->outputList($query);
+    }
+
+    /**
+     * 获取user信息
+     * @return false|string
+     */
+    public function actionUserMessage()
+    {
+        $post = \Yii::$app->request->post();
+        $query = Users::find()->where($post)->asArray()->one();
+
+        return $this->outputList($query);
+    }
+
+    public function actionEditUser()
+    {
+        $post = \Yii::$app->request->post();
+        $post['update_time'] = time();
+
+        $query = \Yii::$app->db->createCommand()->update(Users::tableName(),$post,['open_id'=>$post['open_id']])->execute();
+
+        if ($query){
+            return $this->outputRows('success');
+        }else{
+            return $this->outputRows('fail');
+        }
     }
 }

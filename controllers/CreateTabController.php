@@ -57,7 +57,6 @@ class CreateTabController extends Controller
         ]);
     }
 
-
     /**
      * Creates a new CreateTab model.
      * If creation is successful, the browser will be redirected to the 'view' page.
