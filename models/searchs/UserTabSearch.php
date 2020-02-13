@@ -80,4 +80,24 @@ class UserTabSearch extends UserTab
 
         return $dataProvider;
     }
+    public function getContentPercent($query)
+    {
+        $result = [];
+        $content = "content";
+        $percent = "percent";
+        foreach ($query as $k => $item) {
+            if (preg_match("/(content_per+)/",$k)){
+                $contentPer = explode(',',$item);
+                if (isset($contentPer[1])){
+                    ++self::$i;
+                    $result[$content . self::$i] = $contentPer[0];
+                    $result[$percent . self::$i] = $contentPer[1];
+
+                }
+            }else{
+                $result[$k] = $item;
+            }
+        }
+        return $result;
+    }
 }

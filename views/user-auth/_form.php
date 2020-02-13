@@ -4,25 +4,21 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Team */
+/* @var $model app\models\UserAuth */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="team-form">
+<div class="user-auth-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'team_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'member')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'create_tab_id')->textInput() ?>
-
-    <?= $form->field($model, 'average')->textInput() ?>
+    <?= $form->field($model, 'auth_id')->textInput() ?>
 
     <?= $form->field($model, 'create_time')->textInput() ?>
 
-    <?= $form->field($model, 'update_time')->textInput() ?>
+    <?= $form->field($model, 'is_del')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

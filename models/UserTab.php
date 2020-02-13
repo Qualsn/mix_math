@@ -27,6 +27,12 @@ use Yii;
  */
 class UserTab extends \yii\db\ActiveRecord
 {
+
+    public function getCreateTab()
+    {
+        $getTab = $this->hasOne(CreateTab::tableName(),['id' => 'create_tab_id']);
+        return $getTab;
+    }
     /**
      * {@inheritdoc}
      */

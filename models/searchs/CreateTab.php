@@ -11,6 +11,8 @@ use app\models\CreateTab as CreateTabModel;
  */
 class CreateTab extends CreateTabModel
 {
+    static $i =0;
+    static $c =0;
     /**
      * {@inheritdoc}
      */
@@ -85,4 +87,36 @@ class CreateTab extends CreateTabModel
 
         return $dataProvider;
     }
+
+    public function getContentPercent($query)
+    {
+        $result = [];
+        $content = "content";
+        $percent = "percent";
+        foreach ($query as $k => $item) {
+            $data = [];
+            foreach ($item as $v => $value) {
+                if (preg_match("/(content_per+)/",$v)){
+                    $contentPer = explode(',',$value);
+                    if (isset($contentPer[1])){
+                        ++self::$i;
+                        $data['content'][self::$i][$content . self::$i] = $contentPer[0];
+                        $data['content'][self::$i][$percent . self::$i] = $contentPer[1];
+                    }
+                }elseif (preg_match("/(score+)/",$v ) && !empty($value)){
+                    ++self::$c;
+                    $data['content'][self::$c][$v] = $value;
+                }
+
+                else{
+                    $data[$v] = $value;
+                }
+            }
+            self::$i = 0;
+            self::$c = 0;
+            $result[$k] = $data;
+        }
+        return $result;
+    }
+
 }

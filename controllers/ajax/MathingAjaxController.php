@@ -6,10 +6,11 @@ namespace app\controllers\ajax;
 
 use app\controllers\BaseController;
 use app\models\CreateTab;
+use app\models\MathRecord;
 use app\models\Team;
 use app\models\UserTab;
 
-class MathingAjaxController extends BaseController
+class MathingAjaxController extends BaseAjaxController
 {
     static $i = 0;
     static $v = 0;
@@ -25,18 +26,20 @@ class MathingAjaxController extends BaseController
     public function actionRule()
     {
         $post = \Yii::$app->request->post();
-        $status = $this->getStatus($post);
-        if ($status['status'] == self::MATH_DEFAULT){
-            return $this->outputRows('fail','比赛还没开始');
-        }elseif ($status['status'] == self::MATH_END){
-            return $this->outputRows('fail','比赛已经结束');
-        }
+
 
         $result = CreateTab::find()->select(['id'])->where($post)->asArray()->one();
         if ($result){
             return $this->outputRows('success',$result);
         }else{
             return $this->outputError('验证码错误');
+        }
+
+        $status = $this->getStatus($post);
+        if ($status['status'] == self::MATH_DEFAULT){
+            return $this->outputRows('fail','比赛还没开始');
+        }elseif ($status['status'] == self::MATH_END){
+            return $this->outputRows('fail','比赛已经结束');
         }
 
     }
@@ -199,8 +202,20 @@ class MathingAjaxController extends BaseController
 
         $status = $this->getStatus($post);
         if ($status['status'] == self::MATH_START){
+            $list = UserTab::find()->select([ 'team_id', 'create_tab_id', 'avg(var_count)  as avg_count'])
+                ->where(['create_tab_id' => $post['id']])->groupBy('team_id')
+                ->asArray()->all();
+            $countList =[];
+            $time = time();
+            foreach ($list as $i => $item) {
+                $item['create_time'] = $time;
+                $countList[] = $item;
+            }
             $query = \Yii::$app->db->createCommand()->update(CreateTab::tableName(),['status' => self::MATH_END,'update_time' => time()],$post)->execute();
-            if ($query){
+
+            $result = \Yii::$app->db->createCommand()->batchInsert(MathRecord::tableName(),[ 'team_id', 'create_tab_id', 'avg_count', 'create_time'],$countList)->execute();
+
+            if ($query && $result){
                 return $this->outputRows('success',1);
             }else{
                 return $this->outputRows('fail',0);
@@ -214,5 +229,61 @@ class MathingAjaxController extends BaseController
     {
         $status = CreateTab::find()->select(['status'])->where($post)->asArray()->one();
         return $status;
+    }
+
+    /**
+     * 评分列表
+     * @return false|string
+     */
+    public function actionScoreList()
+    {
+        $post = \Yii::$app->request->post();
+        $userId = $post['id'];
+        $query = UserTab::find()->from(UserTab::tableName() . " as ut")
+            ->select(['ct.id','ct.title','ct.status'])
+            ->leftJoin(CreateTab::tableName() . ' as ct' , "ct.id=create_tab_id")
+            ->where(['ut.user_id' => $userId])
+            ->distinct(['ut.user_id','create_tab_id'])->orderBy('ct.id desc')
+            ->asArray()->all();
+        $list = [];
+        foreach ($query as $value){
+            if ($value['status'] == 2){
+                $value['background'] = 'rgba(248, 63, 63, 0.707)';
+            }else{
+                $value['background'] = 'rgba(77, 166, 225, 0.33)';
+            }
+            $list[] = $value;
+        }
+        return $this->outputList($list);
+    }
+
+    public function actionScoreShow()
+    {
+        $post = \Yii::$app->request->post();
+        $createTabSearch = new \app\models\searchs\CreateTab();
+        $where = [
+          'u.user_id' => $post['user_id'] ,
+            'u.create_tab_id' => $post['create_tab_id']
+        ];
+//        $where = [
+//            'u.user_id' => 'oK3uf4jLAMJArIyZG8fmuv10V81k' ,
+//            'u.create_tab_id' => 19
+//        ];
+        $fields = [
+            'u.create_tab_id', 'ct.title','u.team_id','team_name',
+            'score1','score2','score3','score4','score5','score6','score7','score8','score9','score10',
+            'content_per1','content_per2','content_per3','content_per4','content_per5','content_per6','content_per7','content_per8','content_per9','content_per10',
+            'var_count','u.evaluate'
+        ];
+        $query = UserTab::find()->from(['u' => UserTab::tableName()])->select($fields)
+            ->leftJoin(CreateTab::tableName() . ' as ct', 'ct.id=u.create_tab_id')
+            ->leftJoin(Team::tableName() . ' as t', 't.id= u.team_id')
+            ->where($where)
+            ->orderBy('u.id')
+            ->asArray()->all();
+        $result = $createTabSearch->getContentPercent($query);
+//echo "<pre>";
+//var_dump($result);die();
+        return $this->outputList($result);
     }
 }

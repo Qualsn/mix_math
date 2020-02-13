@@ -9,13 +9,13 @@ use app\models\CreateTab;
 use app\models\User;
 use app\models\Users;
 
-class UserAjaxController extends BaseController
+class UserAjaxController extends BaseAjaxController
 {
 //判断登录与存储user
     public function actionUser()
     {
         $post = \Yii::$app->request->post();
-
+//var_dump($post);return;
         $openId = Users::find()->where(['open_id' => $post['open_id']])->asArray()->one();
         if (!empty($openId)){
             return $this->outputRows('success');

@@ -4,10 +4,31 @@
 namespace app\controllers;
 
 
+use app\models\LoginForm;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
+    public function __construct($id,$module,$config=[])
+    {
+        parent::__construct($id,$module,$config=[]);
+        $session = \Yii::$app->session;
+        $url = 'http://mixmath.com/index.php?r=site%2Flogin';
+        $toUrl ='http://mixmath.com/index.php?' .\Yii::$app->getRequest()->queryString;
+        if (\Yii::$app->user->isGuest && $url != $toUrl){
+            $url = 'http://mixmath.com/index.php?r=site%2Flogin';
+            return $this->redirectLogin($url);
+        }else{
+
+        }
+
+    }
+
+    public function redirectLogin($url)
+    {
+        header("Location: {$url}");exit();
+    }
+
     /**成功信息回调
      * @param array $output
      * @return false|string

@@ -10,12 +10,27 @@ use Yii;
  * @property int $id
  * @property string $team_name
  * @property string $member
- * @property int $reate_tab_id
+ * @property int $create_tab_id
+ * @property double $average
  * @property int $create_time
  * @property int $update_time
  */
 class Team extends \yii\db\ActiveRecord
 {
+    /**
+     * 关联创建表
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreateTab()
+    {
+        $getTab = $this->hasOne(CreateTab::tableName(),['id' => 'create_tab_id']);
+        return $getTab;
+    }
+    public function getTeam()
+    {
+        $getTeam = $this->hasOne(Team::tableName(),['id' => 'team_id']);
+        return $getTeam;
+    }
     /**
      * {@inheritdoc}
      */
@@ -31,7 +46,8 @@ class Team extends \yii\db\ActiveRecord
     {
         return [
             [['team_name', 'member'], 'required'],
-            [['reate_tab_id', 'create_time', 'update_time'], 'integer'],
+            [['create_tab_id', 'create_time', 'update_time'], 'integer'],
+            [['average'], 'number'],
             [['team_name', 'member'], 'string', 'max' => 50],
         ];
     }
@@ -45,7 +61,8 @@ class Team extends \yii\db\ActiveRecord
             'id' => 'ID',
             'team_name' => 'Team Name',
             'member' => 'Member',
-            'reate_tab_id' => 'Reate Tab ID',
+            'create_tab_id' => 'Create Tab ID',
+            'average' => 'Average',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
         ];

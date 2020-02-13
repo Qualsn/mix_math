@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Team */
+/* @var $model app\models\UserAuth */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Teams', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'User Auths', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="team-view">
+<div class="user-auth-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,12 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'team_name',
-            'member',
-            'create_tab_id',
-            'average',
+            'user_id',
+            'auth_id',
             'create_time:datetime',
-            'update_time:datetime',
+            'is_del',
         ],
     ]) ?>
 

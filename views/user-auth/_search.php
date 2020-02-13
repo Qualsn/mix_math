@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\searchs\TeamSearch */
+/* @var $model app\models\searchs\UserAuth */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="team-search">
+<div class="user-auth-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,17 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'team_name') ?>
+    <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'member') ?>
+    <?= $form->field($model, 'auth_id') ?>
 
-    <?= $form->field($model, 'create_tab_id') ?>
+    <?= $form->field($model, 'create_time') ?>
 
-    <?= $form->field($model, 'average') ?>
-
-    <?php // echo $form->field($model, 'create_time') ?>
-
-    <?php // echo $form->field($model, 'update_time') ?>
+    <?= $form->field($model, 'is_del') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

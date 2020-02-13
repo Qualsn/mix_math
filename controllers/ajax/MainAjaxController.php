@@ -7,7 +7,7 @@ namespace app\controllers\ajax;
 use app\controllers\BaseController;
 use app\models\CreateTab;
 
-class MainAjaxController extends BaseController
+class MainAjaxController extends BaseAjaxController
 {
 
     /**

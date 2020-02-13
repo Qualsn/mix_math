@@ -4,12 +4,12 @@ namespace app\models\searchs;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Team;
+use app\models\MathRecord;
 
 /**
- * TeamSearch represents the model behind the search form of `app\models\Team`.
+ * MathRecordSearch represents the model behind the search form of `app\models\MathRecord`.
  */
-class TeamSearch extends Team
+class MathRecordSearch extends MathRecord
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,8 @@ class TeamSearch extends Team
     public function rules()
     {
         return [
-            [['id', 'create_tab_id', 'create_time', 'update_time'], 'integer'],
-            [['team_name', 'member'], 'safe'],
-            [['average'], 'number'],
+            [['id', 'team_id', 'create_tab_id', 'create_time'], 'integer'],
+            [['avg_count'], 'number'],
         ];
     }
 
@@ -41,7 +40,7 @@ class TeamSearch extends Team
      */
     public function search($params)
     {
-        $query = Team::find();
+        $query = MathRecord::find();
 
         // add conditions that should always apply here
 
@@ -60,14 +59,11 @@ class TeamSearch extends Team
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'team_id' => $this->team_id,
             'create_tab_id' => $this->create_tab_id,
-            'average' => $this->average,
+            'avg_count' => $this->avg_count,
             'create_time' => $this->create_time,
-            'update_time' => $this->update_time,
         ]);
-
-        $query->andFilterWhere(['like', 'team_name', $this->team_name])
-            ->andFilterWhere(['like', 'member', $this->member]);
 
         return $dataProvider;
     }

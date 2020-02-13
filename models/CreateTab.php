@@ -40,6 +40,11 @@ class CreateTab extends \yii\db\ActiveRecord
         return 'create_tab';
     }
 
+    public function getUsers()
+    {
+        $users =  $this->hasOne(Users::tableName(),['id' => 'user_id']);
+    }
+
     /**
      * {@inheritdoc}
      */

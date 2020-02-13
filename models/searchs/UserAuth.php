@@ -4,12 +4,12 @@ namespace app\models\searchs;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Team;
+use app\models\UserAuth as UserAuthModel;
 
 /**
- * TeamSearch represents the model behind the search form of `app\models\Team`.
+ * UserAuth represents the model behind the search form of `app\models\UserAuth`.
  */
-class TeamSearch extends Team
+class UserAuth extends UserAuthModel
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,8 @@ class TeamSearch extends Team
     public function rules()
     {
         return [
-            [['id', 'create_tab_id', 'create_time', 'update_time'], 'integer'],
-            [['team_name', 'member'], 'safe'],
-            [['average'], 'number'],
+            [['id', 'auth_id', 'create_time', 'is_del'], 'integer'],
+            [['user_id'], 'safe'],
         ];
     }
 
@@ -41,7 +40,7 @@ class TeamSearch extends Team
      */
     public function search($params)
     {
-        $query = Team::find();
+        $query = UserAuthModel::find();
 
         // add conditions that should always apply here
 
@@ -60,14 +59,12 @@ class TeamSearch extends Team
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'create_tab_id' => $this->create_tab_id,
-            'average' => $this->average,
+            'auth_id' => $this->auth_id,
             'create_time' => $this->create_time,
-            'update_time' => $this->update_time,
+            'is_del' => $this->is_del,
         ]);
 
-        $query->andFilterWhere(['like', 'team_name', $this->team_name])
-            ->andFilterWhere(['like', 'member', $this->member]);
+        $query->andFilterWhere(['like', 'user_id', $this->user_id]);
 
         return $dataProvider;
     }

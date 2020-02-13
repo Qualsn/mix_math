@@ -8,7 +8,7 @@ use app\controllers\BaseController;
 use app\models\CreateTab;
 use app\models\Team;
 
-class CreateTabAjaxController extends BaseController
+class CreateTabAjaxController extends BaseAjaxController
 {
 
     static $i = 0;
@@ -82,23 +82,44 @@ class CreateTabAjaxController extends BaseController
         return $this->outputList($result);
     }
 
+    /**
+     * 创建队伍
+     * @return false|string
+     * @throws \yii\db\Exception
+     */
     public function actionAddTeam()
     {
         $post = \Yii::$app->request->post();
         $model = new Team();
         $tabId = $post['math_num'];
-        $data = [];
+        $create = [];
+
+        $tab = CreateTab::find()->select(['status'])->where(['id' => $tabId])->asArray()->one();
+        if ($tab['status'] != 0){
+            return  $this->outputRows('fail');
+        }
+
         for($i = 1; $i<=10; $i++){
             $teamName = 'team_name' . $i;
             $member = 'team_member' . $i;
-            if (isset($post[$teamName])){
-                $data[self::$i] = ['create_tab_id' => $tabId,'team_name' => $post[$teamName],'member' => $post[$member],'create_time' => time()];
+            $id = 'id' . $i;
+            if (isset($post[$teamName]) && empty($post[$id])){
+                $create[self::$i++] = ['create_tab_id' => $tabId,'team_name' => $post[$teamName],'member' => $post[$member],'create_time' => time()];
                 self::$i++;
+            }elseif (isset($post[$teamName]) && !empty($post[$id])){
+                $update = ['create_tab_id' => $tabId,'team_name' => $post[$teamName],'member' => $post[$member],'create_time' => time()];
+                $idArr= ['id' => $post[$id]];
+                Team::updateAll($update,['id' =>$idArr]);
             }
         }
-        $result = \Yii::$app->db->createCommand()->batchInsert(Team::tableName(),['create_tab_id','team_name','member',  'create_time'],$data)->execute();
+        $result = \Yii::$app->db->createCommand()->batchInsert(Team::tableName(),['create_tab_id','team_name','member',  'create_time'],$create)->execute();
 
-        return $this->outputList($result);
+
+        return $this->outputRows('success');
+
+
     }
+
+
 
 }
